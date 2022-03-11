@@ -1,11 +1,20 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 
+const PORT = process.env.PORT || 3000
+
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         logger: ['log', 'error']
     });
-    await app.listen(3000);
+    app.enableCors({
+        origin: '*'
+    })
+    console.log(`APPLICATION HAS START ${PORT}`)
+    await app.listen(PORT);
 }
 
-bootstrap().catch(err => console.log(err));
+bootstrap().catch(err => {
+    console.log(err.message)
+    console.log("aqavaaaar")
+});

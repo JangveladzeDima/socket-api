@@ -19,8 +19,8 @@ let CompanyRegistrationAdapter = class CompanyRegistrationAdapter {
     }
     async addAnnouncement(params) {
         try {
-            const { token, title, text } = params;
-            const x = await this.httpService.post('http://localhost:5000/announcements', {
+            const { token, title, innerContext: text } = params;
+            await this.httpService.post('https://protected-inlet-17146.herokuapp.com/announcements', {
                 title,
                 text
             }, {

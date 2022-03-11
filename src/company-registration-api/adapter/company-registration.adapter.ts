@@ -14,8 +14,8 @@ export class CompanyRegistrationAdapter implements ICompanyRegistration {
 
     async addAnnouncement(params: AddAnnouncementParamsDto): Promise<void> {
         try {
-            const { token, title, text } = params
-            const x = await this.httpService.post('http://localhost:5000/announcements', {
+            const { token, title, innerContext: text } = params
+            await this.httpService.post('https://protected-inlet-17146.herokuapp.com/announcements', {
                 title,
                 text
             }, {

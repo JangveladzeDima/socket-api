@@ -1,5 +1,5 @@
 export class AddAnnouncementParamsDto {
-    token: string
+    token: string | string[]
     title: string
-    text: string
+    innerContext: string
 }

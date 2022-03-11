@@ -27,16 +27,19 @@ let AppGateway = class AppGateway {
     }
     async handleAnnouncement(client, payload) {
         try {
-            const token = client.handshake.headers.authorization;
-            const { title, text } = payload;
+            const token = client.handshake.query.authorization;
+            const { title, innerContext } = payload;
+            console.log(token);
             await this.companyRegistrationAdapter.addAnnouncement({
                 token,
                 title,
-                text
+                innerContext
             });
+            this.server.emit('newNotification', 'daemata axali');
         }
         catch (err) {
             this.logger.error(err.message);
+            this.logger.error('dimulia');
             this.server.emit('error', err.message);
         }
     }
