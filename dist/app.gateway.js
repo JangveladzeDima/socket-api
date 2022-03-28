@@ -23,23 +23,24 @@ let AppGateway = class AppGateway {
         this.logger = new common_1.Logger();
     }
     async handleConnection(client) {
-        console.log("Connecting success");
+        const token = client.handshake.query.authorization;
+        const userCompanyName = await this.companyRegistrationAdapter.getUserCompanyNameByToken(token);
+        console.log(userCompanyName);
+        client.join(userCompanyName);
     }
     async handleAnnouncement(client, payload) {
         try {
             const token = client.handshake.query.authorization;
             const { title, innerContext } = payload;
-            console.log(token);
             await this.companyRegistrationAdapter.addAnnouncement({
                 token,
                 title,
                 innerContext
             });
-            this.server.emit('newNotification', 'daemata axali');
+            this.server.in('aiasoft').emit('newNotification', 'daemata axali');
         }
         catch (err) {
             this.logger.error(err.message);
-            this.logger.error('dimulia');
             this.server.emit('error', err.message);
         }
     }

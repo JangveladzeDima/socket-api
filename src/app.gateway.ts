@@ -16,7 +16,9 @@ export class AppGateway implements OnGatewayConnection {
     }
 
     async handleConnection(client: Socket) {
-        console.log("Connecting success")
+        const token = client.handshake.query.authorization
+        const userCompanyName = await this.companyRegistrationAdapter.getUserCompanyNameByToken(token)
+        client.join(userCompanyName)
     }
 
     @SubscribeMessage('announcements')
@@ -24,16 +26,15 @@ export class AppGateway implements OnGatewayConnection {
         try {
             const token = client.handshake.query.authorization
             const { title, innerContext } = payload
-            console.log(token)
             await this.companyRegistrationAdapter.addAnnouncement({
                 token,
                 title,
                 innerContext
             })
-            this.server.emit('newNotification', 'daemata axali')
+            const userCompanyName = await this.companyRegistrationAdapter.getUserCompanyNameByToken(token)
+            this.server.in(userCompanyName).emit('newNotification', 'daemata axali')
         } catch (err) {
             this.logger.error(err.message)
-            this.logger.error('dimulia')
             this.server.emit('error', err.message)
         }
     }

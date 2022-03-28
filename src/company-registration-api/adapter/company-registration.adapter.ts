@@ -28,4 +28,20 @@ export class CompanyRegistrationAdapter implements ICompanyRegistration {
             throw err
         }
     }
+
+    async getUserCompanyNameByToken(token) {
+        try {
+            const response = await this.httpService.get('https://protected-inlet-17146.herokuapp.com/user/companyName', {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            }).toPromise()
+            const responseDate = response.data
+            const { companyName } = responseDate
+            return companyName
+        } catch (err) {
+            this.logger.error(err.message)
+            throw err
+        }
+    }
 }

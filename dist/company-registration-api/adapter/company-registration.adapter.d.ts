@@ -6,4 +6,5 @@ export declare class CompanyRegistrationAdapter implements ICompanyRegistration 
     private logger;
     constructor(httpService: HttpService);
     addAnnouncement(params: AddAnnouncementParamsDto): Promise<void>;
+    getUserCompanyNameByToken(token: any): Promise<any>;
 }

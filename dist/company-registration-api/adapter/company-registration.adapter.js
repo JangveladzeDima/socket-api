@@ -34,6 +34,23 @@ let CompanyRegistrationAdapter = class CompanyRegistrationAdapter {
             throw err;
         }
     }
+    async getUserCompanyNameByToken(token) {
+        try {
+            console.log(token);
+            const response = await this.httpService.get('https://protected-inlet-17146.herokuapp.com/user/companyName', {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            }).toPromise();
+            const responseDate = response.data;
+            const { companyName } = responseDate;
+            return companyName;
+        }
+        catch (err) {
+            this.logger.error(err.message);
+            throw err;
+        }
+    }
 };
 CompanyRegistrationAdapter = __decorate([
     (0, common_1.Injectable)(),
